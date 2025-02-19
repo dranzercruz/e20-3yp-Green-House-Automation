@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ selectedZone, setSelectedZone, viewZone
         </View>
         }  
 
-        <TouchableOpacity onPress={() => router.push('Components/Manual/SlideNew')}>
+        <TouchableOpacity onPress={() => router.push('Components/Manual/Manual')}>
           <Ionicons name="settings" size={26} color="white" />
         </TouchableOpacity>
       </View>

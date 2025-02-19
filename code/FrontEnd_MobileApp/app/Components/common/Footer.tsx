@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
       <TouchableOpacity onPress={() => router.push("Components/Statics/Statistics")}>
         <Ionicons name="bar-chart" size={28} color="white" />
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => router.push("Components/Manual/Manual")}>
         <MaterialCommunityIcons name="account-cog" size={28} color="white" />
       </TouchableOpacity>
     </View>

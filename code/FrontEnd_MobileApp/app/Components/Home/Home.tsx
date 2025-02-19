@@ -6,14 +6,11 @@ import {
   TouchableOpacity, 
   StyleSheet, 
   Dimensions, 
-  Modal, 
-  FlatList 
+  ScrollView
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import Footer from "../common/Footer";
 import Header from "../common/Header";
 import { router } from "expo-router";
-import { ScrollView } from "react-native-gesture-handler";
 
 const { width, height } = Dimensions.get("window");
 
@@ -23,22 +20,23 @@ const Home = () => {
 
   return (
     <>
-    <View style={styles.container}>
-
       <Header viewZone={false} selectedZone={''} setSelectedZone={() => {}}/>
 
-      <Image source={require("../../../assets/download.jpeg")} style={styles.image} />
+      <View style={styles.container}>
+        <Text style={styles.heading}>Green Tech</Text>
 
-      <ScrollView style={styles.optionsContainer}>
-          {zones.map((option, index) => (
-            <TouchableOpacity key={index} style={styles.optionButton} onPress={() => router.push("/Components/zone/Zone")}>
-              <Text style={styles.optionText}>{option}</Text>
-            </TouchableOpacity>
-          ))}
-      </ScrollView>
+        <Image source={require("../../../assets/download.jpeg")} style={styles.image} />
+
+        <ScrollView style={styles.optionsContainer}>
+            {zones.map((option, index) => (
+              <TouchableOpacity key={index} style={styles.optionButton} onPress={() => router.push("/Components/zone/Zone")}>
+                <Text style={styles.optionText}>{option}</Text>
+              </TouchableOpacity>
+            ))}
+        </ScrollView>
+      </View>
 
       <Footer />
-    </View>
     </>
   );
 };
@@ -49,11 +47,17 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(4,38,28)",
     alignItems: "center",
   },
+  heading:{
+    color: "white",
+    fontSize: 30,
+    fontWeight: "bold",
+    marginTop: "20%",
+  },
   image: {
     width: width * 0.9,
     height: height * 0.25,
     borderRadius: 10,
-    marginTop: "25%",
+    marginTop: 10,
     marginBottom: 15,
   },
   optionsContainer: {

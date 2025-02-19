@@ -45,7 +45,7 @@ const imageData = [
   },
 ];
 
-const App = () => {
+const Manual = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scaleAnim = new Animated.Value(1);
 
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   description: {
-    fontSize: 22,
+    fontSize: 20,
     width: "85%",
     textAlign: "justify",
     color: "#F6FCDF",
@@ -217,4 +217,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Manual;
