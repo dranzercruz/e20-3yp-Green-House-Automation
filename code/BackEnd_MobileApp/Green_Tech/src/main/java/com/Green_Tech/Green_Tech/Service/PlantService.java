@@ -50,12 +50,30 @@ public class PlantService {
         HashMap awsData = convertByteArrayToHashMap(payload);
 
         String status = (String) awsData.get("status");
-        Long deviceId = (Long) awsData.get("deviceId");
+        Long deviceId = extractTheLongValue(awsData.get("deviceId"));
+        Long plantId = extractTheLongValue(awsData.get("plantId"));
 
         Device device = deviceRepo.findById(deviceId).orElseThrow(() ->
                 new DeviceNotFoundException("device not found!"));
 
+        Plant plant = plantRepo.findById(plantId).orElseThrow(() ->
+                new DeviceNotFoundException("device not found!"));
+
         device.setThresholdAssigned(Objects.equals(status, "received"));
+        device.setPlant(plant);
         deviceRepo.save(device);
+    }
+
+    public Long extractTheLongValue(Object obj){
+        Long deviceId = null;
+
+        if (obj instanceof Integer) {
+            deviceId = ((Integer) obj).longValue();
+        } else if (obj instanceof Long) {
+            deviceId = (Long) obj;
+        } else {
+            throw new IllegalArgumentException("deviceId is not a valid Integer or Long: " + obj);
+        }
+        return  deviceId;
     }
 }

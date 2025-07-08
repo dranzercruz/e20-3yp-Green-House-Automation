@@ -11,8 +11,14 @@ extern WebServer server;
 extern String ssid;
 extern String password;
 extern String email;
-extern int deviceId;
+extern long deviceId;
+extern long plantId;
 extern bool registered;
+extern float moistureThreshold[2];
+extern float temperatureThreshold[2];
+extern float humidityThreshold[2];
+extern float nutrientThreshold[3];
+extern bool hasThresholds;
 
 extern const char* AWS_CERT_CRT;
 extern const char* AWS_CERT_PRIVATE;
@@ -60,11 +66,12 @@ String readFileAsString(fs::FS &fs, const char * path) {
 }
 
 void saveCredentials() {
-  EEPROM.begin(512);
+  EEPROM.begin(1024);
   EEPROM.writeString(0, ssid);
   EEPROM.writeString(100, password);
   EEPROM.writeString(200, email);
-  EEPROM.write(290, static_cast<uint8_t>(registered));
+  EEPROM.write(290, registered);
+  EEPROM.write(300, deviceId);
   EEPROM.commit();
   EEPROM.end();
 }
@@ -198,12 +205,24 @@ void startAccessPoint() {
 }
 
 void loadCredentials() {
-  EEPROM.begin(512);
+  EEPROM.begin(1024);
   ssid = EEPROM.readString(0);
   password = EEPROM.readString(100);
   email = EEPROM.readString(200);
   registered = EEPROM.read(290) != 0;
   deviceId = EEPROM.read(300);
+  plantId = EEPROM.read(310);
+  hasThresholds = EEPROM.read(320) != 0;
+  if (hasThresholds) {
+    for (int i = 0; i < 2; i++) {
+      moistureThreshold[i] = EEPROM.readFloat(400 + i * sizeof(float));
+      temperatureThreshold[i] = EEPROM.readFloat(400 + 2 * sizeof(float) + i * sizeof(float));
+      humidityThreshold[i] = EEPROM.readFloat(400 + 4 * sizeof(float) + i * sizeof(float));
+    }
+    for (int i = 0; i < 3; i++) {
+      nutrientThreshold[i] = EEPROM.readFloat(400 + 6 * sizeof(float) + i * sizeof(float));
+    }
+  }
   EEPROM.end();
 
   certString = readFileAsString(SPIFFS, "/cert.pem");

@@ -107,24 +107,29 @@ public class DeviceService {
         Device device = deviceRepository.findById(id).orElseThrow(
                 () -> new DeviceNotFoundException("Device not found!!"));
 
-        Plant plant = plantRepo.findById(Long.valueOf(updatedDevice.get("plantId"))).orElseThrow(() ->
-                new PlantNotFoundException("Plant not found!"));
-
         device.setZoneName(updatedDevice.get("zoneName"));
         device.setName(updatedDevice.get("name"));
         device.setLocation(updatedDevice.get("location"));
 
-        if (!Objects.equals(device.getPlant().getId(), plant.getId())){
-            device.setPlant(plant);
-            String message = "{"
-                    + "\"temperature\":" + Arrays.toString(new Double[]{plant.getTemperatureLow(), plant.getTemperatureHigh()}) + ","
-                    + "\"humidity\":" + Arrays.toString(new Double[]{plant.getHumidityLow(), plant.getHumidityHigh()}) + ","
-                    + "\"moisture\":" + Arrays.toString(new Double[]{plant.getMoistureLow(), plant.getMoistureHigh()}) + ","
-                    + "\"nitrogen\":" + plant.getNitrogen() + ","
-                    + "\"phosphorus\":" + plant.getPhosphorus() + ","
-                    + "\"potassium\":" + plant.getPotassium()
-                    + "}";
-            mqttService.publishControlSignal(message, device.getId(), "/threshold");
+
+        if(updatedDevice.get("plantId") != null){
+
+            Long plantId = Long.valueOf(updatedDevice.get("plantId"));
+            Plant plant = plantRepo.findById(plantId).orElseThrow(() ->
+                    new PlantNotFoundException("Plant not found!"));
+
+            if (device.getPlant() == null || !Objects.equals(device.getPlant().getId(), plant.getId())){
+//                device.setPlant(plant);
+                String message = "{"
+                        + "\"plantId\":" + plant.getId() + ","
+                        + "\"temperature\":" + Arrays.toString(new Double[]{plant.getTemperatureLow(), plant.getTemperatureHigh()}) + ","
+                        + "\"humidity\":" + Arrays.toString(new Double[]{plant.getHumidityLow(), plant.getHumidityHigh()}) + ","
+                        + "\"moisture\":" + Arrays.toString(new Double[]{plant.getMoistureLow(), plant.getMoistureHigh()}) + ","
+                        + "\"nutrientThreshold\":" + Arrays.toString(new Double[]{plant.getNitrogen(), plant.getPhosphorus()
+                        , plant.getPotassium()})
+                        + "}";
+                mqttService.publishControlSignal(message, device.getId(), "/threshold");
+            }
         }
 
         return deviceRepository.save(device);
@@ -146,11 +151,11 @@ public class DeviceService {
         Device device = deviceRepository.findById(id).orElseThrow(
                 () -> new DeviceNotFoundException("Device not found!!"));
 
-        Plant plant = plantRepo.findById(plantData.get("plantId")).orElseThrow(() ->
-                new PlantNotFoundException("Plant not found!"));
+//        Plant plant = plantRepo.findById(plantData.get("plantId")).orElseThrow(() ->
+//                new PlantNotFoundException("Plant not found!"));
 
         device.setActive(true);
-        device.setPlant(plant);
+//        device.setPlant(plant);
         return deviceRepository.save(device);
     }
 

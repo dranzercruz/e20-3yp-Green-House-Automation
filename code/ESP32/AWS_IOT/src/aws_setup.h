@@ -4,7 +4,8 @@
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 
-extern int deviceId;
+extern long deviceId;
+extern long plantId;
 extern bool hasThresholds;
 extern int commandIndex;
 extern bool status;
@@ -84,12 +85,38 @@ void confirmThresholdReceipt(){
   JsonDocument doc;
   doc["deviceId"] = deviceId;
   doc["status"] = hasThresholds ? "received" : "not_received";
+  doc["plantId"] = plantId;
 
   // Serialize and publish
   char jsonBuffer[512];
   serializeJson(doc, jsonBuffer);
-  String topic = "esp32/" + String(deviceId) + "/threshold-confirmation";
+  String topic = "esp32/" + String(deviceId) + "/thresholdConfirmation";
   bool result = client.publish(topic.c_str(), jsonBuffer);
+  if(!result) {
+    Serial.println("Failed to publish threshold confirmation");
+    confirmThresholdReceipt();
+  } else {
+    Serial.println("Threshold confirmation published successfully");
+  }
+}
+
+void saveThresholds()
+{
+  EEPROM.begin(1024);
+  EEPROM.write(310, plantId);
+  EEPROM.write(320, hasThresholds);
+  if (hasThresholds) {
+    for (int i = 0; i < 2; i++) {
+      EEPROM.writeFloat(400 + i * sizeof(float), moistureThreshold[i]);
+      EEPROM.writeFloat(400 + 2 * sizeof(float) + i * sizeof(float), temperatureThreshold[i]);
+      EEPROM.writeFloat(400 + 4 * sizeof(float) + i * sizeof(float), humidityThreshold[i]);
+    }
+    for (int i = 0; i < 3; i++) {
+      EEPROM.writeFloat(400 + 6 * sizeof(float) + i * sizeof(float), nutrientThreshold[i]);
+    }
+  }
+  EEPROM.commit();
+  EEPROM.end();
 }
 
 void handleThresholdMessage(byte *payload, unsigned int length)
@@ -111,24 +138,31 @@ void handleThresholdMessage(byte *payload, unsigned int length)
     return;
   }
 
-  if (doc["moistureThreshold"].is<JsonArray>() &&
-      doc["temperatureThreshold"].is<JsonArray>() &&
-      doc["humidityThreshold"].is<JsonArray>() &&
+  if (doc["plantId"].is<long>()&&
+      doc["moisture"].is<JsonArray>() &&
+      doc["temperature"].is<JsonArray>() &&
+      doc["humidity"].is<JsonArray>() &&
       doc["nutrientThreshold"].is<JsonArray>() &&
-      doc["moistureThreshold"].size() == 2 &&
-      doc["temperatureThreshold"].size() == 2 &&
-      doc["humidityThreshold"].size() == 2 &&
+      doc["moisture"].size() == 2 &&
+      doc["temperature"].size() == 2 &&
+      doc["humidity"].size() == 2 &&
       doc["nutrientThreshold"].size() == 3) {
+    
     for (int i = 0; i < 2; i++) {
-      moistureThreshold[i] = doc["moistureThreshold"][i].as<float>();
-      temperatureThreshold[i] = doc["temperatureThreshold"][i].as<float>();
-      humidityThreshold[i] = doc["humidityThreshold"][i].as<float>();
+      moistureThreshold[i] = doc["moisture"][i].as<float>();
+      temperatureThreshold[i] = doc["temperature"][i].as<float>();
+      humidityThreshold[i] = doc["humidity"][i].as<float>();
+    }
+    for (int i = 0; i < 3; i++) {
       nutrientThreshold[i] = doc["nutrientThreshold"][i].as<float>();
     }
-    nutrientThreshold[2] = doc["nutrientThreshold"][2].as<float>();
-
+    plantId = doc["plantId"].as<long>();
+    
+    delay(2000);
     hasThresholds = true;
     confirmThresholdReceipt();
+
+    saveThresholds();
 
     Serial.print("Moisture Threshold: ");
     Serial.print(moistureThreshold[0]);

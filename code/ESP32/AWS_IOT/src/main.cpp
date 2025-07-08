@@ -26,7 +26,8 @@
 // --- Globals ---
 WebServer server(80);
 String ssid = "", password = "", email = "";
-int deviceId = -1;
+long deviceId = -1;
+long plantId = -1;
 bool registered = false;
 bool hasThresholds = false;
 const char* AWS_CERT_CRT = nullptr;
@@ -82,8 +83,8 @@ void setup() {
   delay(100);
   if (digitalRead(BUTTON_PIN) == LOW) {
     Serial.println("Resetting device...");
-    EEPROM.begin(512);
-    for (int i = 0; i < 512; i++) EEPROM.write(i, 0);
+    EEPROM.begin(1024);
+    for (int i = 0; i < 1024; i++) EEPROM.write(i, 0);
     EEPROM.commit();
     EEPROM.end();
 
@@ -147,8 +148,10 @@ void loop() {
   if (registered) {
     if (WiFi.status() == WL_CONNECTED) {
       ensureAWSConnection();  // Connect or maintain AWS IoT connection
-      Serial.println("Publishing data to AWS IoT...");
-      publishMessage(h, t, avgMoisture, actuatorState);
+      if(hasThresholds) {
+        Serial.println("Publishing data to AWS IoT...");
+        publishMessage(h, t, avgMoisture, actuatorState);
+      }
     } else {
       Serial.println("WiFi not connected. Skipping AWS publish.");
     }

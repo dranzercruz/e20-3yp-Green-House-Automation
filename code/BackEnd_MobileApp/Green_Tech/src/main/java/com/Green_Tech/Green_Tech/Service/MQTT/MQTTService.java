@@ -96,7 +96,7 @@ public class MQTTService {
                 connection.connect().get();
             }
             catch (Exception e) {
-                throw new RuntimeException(e);
+                System.out.println("❌❌❌ connection failed");
             }
 
             System.out.println("✅ Connected to AWS IoT: " + deviceId);
@@ -104,16 +104,17 @@ public class MQTTService {
             connectionStatus.put(deviceId, true);
             deviceConnections.put(deviceId, connection);
 
-            String topic = "esp32/" + deviceId + "/data";
+            String topicFilter = "esp32/" + deviceId + "/+";
 
-            connection.subscribe(topic, QualityOfService.AT_LEAST_ONCE, message -> {
+            connection.subscribe(topicFilter, QualityOfService.AT_LEAST_ONCE, message -> {
                 String payload = new String(message.getPayload(), StandardCharsets.UTF_8);
-                System.out.println("📩 [" + topic + "] " + payload);
-                String command = topic.split("/")[2];
+                System.out.println("📩 [" + message.getTopic() + "] " + payload);
+                String[] topicParts = message.getTopic().split("/");
+                String command = topicParts[2];
                 try {
-                    if(Objects.equals(command, "data")){
+                    if ("data".equals(command)) {
                         sensorDataService.getDataFromAWS(message.getPayload());
-                    } else if (Objects.equals(command, "threshold-confirmation")) {
+                    } else if ("thresholdConfirmation".equals(command)) {
                         plantService.thresholdConfirmation(message.getPayload());
                     }
                 } catch (DeviceNotFoundException e) {

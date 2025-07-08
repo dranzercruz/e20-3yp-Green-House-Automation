@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { Axios } from '../../AxiosRequestBuilder';
 import { themeAuth } from '../../../Contexts/ThemeContext';
 import { useDeviceContext } from '../../../Contexts/DeviceContext';
+import { Ionicons } from '@expo/vector-icons';
 
 type Device = {
   id: number;
@@ -15,7 +16,7 @@ type Device = {
   user: User;
   plant: Plant;
   active: boolean;
-  isThresholdAssigned?: boolean;
+  thresholdAssigned: boolean;
 };
 
 type Plant = {
@@ -85,7 +86,14 @@ const DeviceListScreen: React.FC = () => {
     (devices?.length ?? 0) > 0 ? (
       <TouchableOpacity onPress={() => directToDetail(item)}>
         <View style={[styles.card, {backgroundColor: theme.colors.cardBackground}]}>
-          <Text style={styles.deviceName}>{item.name}</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={styles.deviceName}>{item.name}</Text>
+            {
+              (item.active && item.thresholdAssigned) ?
+              <Ionicons name="checkmark-circle" size={24} color="white" /> :
+              <Ionicons name="close-circle" size={24} color="yellow" />
+            }
+          </View>
           <Text style={styles.deviceDetails}>MAC: {item.mac}</Text>
           <Text style={styles.deviceDetails}>Zone: {item.zoneName}</Text>
           <Text style={styles.deviceDetails}>Location: {item.location}</Text>

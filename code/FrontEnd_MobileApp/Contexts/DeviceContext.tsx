@@ -10,7 +10,7 @@ type Device = {
   active: boolean;
   user: User;
   plant: Plant;
-  isThresholdAssigned: boolean;
+  thresholdAssigned: boolean;
 };
 
 interface Plant {

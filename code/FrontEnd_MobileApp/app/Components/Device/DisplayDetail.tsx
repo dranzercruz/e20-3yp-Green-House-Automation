@@ -27,7 +27,7 @@ type Device = {
   active: boolean;
   user: User;
   plant: Plant;
-  isThresholdAssigned: boolean;
+  thresholdAssigned: boolean;
 };
 
 interface Plant {
@@ -103,7 +103,7 @@ const DisplayDetail: React.FC = () => {
   }
 
   const handleSave = async () => {
-    if (!selectedPlant) {
+    if (!selectedPlant && device.active === true) {
       Alert.alert("Error", "Please select a plant before adding the device.");
       return;
     }
@@ -125,10 +125,10 @@ const DisplayDetail: React.FC = () => {
   };
 
   const handleAddDevice = async () => {
-    if (!selectedPlant) {
-      Alert.alert("Error", "Please select a plant before adding the device.");
-      return;
-    }
+    // if (!selectedPlant) {
+    //   Alert.alert("Error", "Please select a plant before adding the device.");
+    //   return;
+    // }
     if(device.name.trim() === "" || device.zoneName.trim() === "" || device.location.trim() === "") {
       Alert.alert("Error", "Please fill in all fields before adding the device.");
       return;
@@ -137,6 +137,7 @@ const DisplayDetail: React.FC = () => {
     try {
       const response = await Axios.put(`/device/activate/${device.id}`, { plantId: selectedPlant ? selectedPlant.id : null });
       Alert.alert("Success", "Device added successfully");
+      router.push("Components/Device/DisplayList");
     } catch (error) {
       console.error("Error adding device:", error);
     }
@@ -258,6 +259,12 @@ const DisplayDetail: React.FC = () => {
         </View>
 
         <View style={styles.section}>
+          {!selectedPlant && device.active === true && (
+            <Text style={{color: "red", fontSize: 16, marginBottom: 10}}>
+              Please select a plant for this device.
+            </Text>
+          )}
+
           <Text style={styles.sectionTitle}>MAC INFO</Text>
 
           <View style={styles.field}>
@@ -325,8 +332,10 @@ const DisplayDetail: React.FC = () => {
           </View>
         </View>
 
-        
-        <View style={styles.section}>
+        {
+          device.active && (
+            
+            <View style={styles.section}>
             <View style={styles.plantSelectionContainer}>
               <Text style={styles.sectionTitle}>{isEditing ? "Select plant" : "Plant"}</Text>
               {isEditing && (
@@ -344,10 +353,12 @@ const DisplayDetail: React.FC = () => {
             </View>
 
         </View>
+        )
+      }
         
         { !device.active &&
           <TouchableOpacity onPress={handleAddDevice} style={styles.addButton}>
-              <Text style={[styles.addText, {color: theme.colors.text}]}>Add</Text>
+          <Text style={[styles.addText, {color: theme.colors.text}]}>Add</Text>
             </TouchableOpacity>
         }
 
