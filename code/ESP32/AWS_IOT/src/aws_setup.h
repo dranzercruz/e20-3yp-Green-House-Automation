@@ -57,16 +57,16 @@ void connectAWS()
   Serial.println("AWS IoT Connected!");
 }
 
-void publishMessage(float h, float t, int m, bool actuatorState[])
+void publishMessage(float h, float t, int m, bool actuatorState[],int readingNPK[])
 {
   JsonDocument doc;
   doc["mac"] = WiFi.macAddress();
   doc["humidity"] = h;
   doc["temperature"] = t;
   doc["moisture"] = m;
-  doc["nitrogenLevel"] = random(40, 75);
-  doc["phosphorusLevel"] = random(35, 70);
-  doc["potassiumLevel"] = random(37, 80);
+  doc["nitrogenLevel"] = readingNPK[0];
+  doc["phosphorusLevel"] = readingNPK[1];
+  doc["potassiumLevel"] = readingNPK[2];
    // Create actuatorState array in JSON
   JsonArray stateArray = doc["actuatorState"].to<JsonArray>();
   for (int i = 0; i < 5; i++) {

@@ -364,6 +364,7 @@ void tryConnectToWiFi() {
   }
 
   Serial.println("Connecting to WiFi: " + ssid);
+  delay(500);
   WiFi.begin(ssid.c_str(), password.c_str());
 
   int retries = 0;
