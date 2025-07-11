@@ -1,12 +1,14 @@
 package com.Green_Tech.Green_Tech.Service.sensorData;
 
 import com.Green_Tech.Green_Tech.CustomException.DeviceNotFoundException;
+import com.Green_Tech.Green_Tech.DTO.DailySensorAverageDTO;
 import com.Green_Tech.Green_Tech.Entity.Device;
 import com.Green_Tech.Green_Tech.Entity.SensorData;
 import com.Green_Tech.Green_Tech.Repository.DeviceRepo;
 import com.Green_Tech.Green_Tech.Repository.SensorDataRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -107,5 +109,18 @@ public class SensorDataService {
             result[i] = list.get(i);
         }
         return result;
+    }
+
+    public List<DailySensorAverageDTO> getSummary(Long id, Map<String, Date> dateRange)
+            throws DeviceNotFoundException {
+
+        if(!deviceRepo.existsById(id)){
+            throw new DeviceNotFoundException("Device not found to fetch the data");
+        }
+
+        Date start = dateRange.get("startDate");
+        Date end = dateRange.get("endDate");
+
+        return sensorDataRepository.findByIdAndDateRange(id, start, end);
     }
 }

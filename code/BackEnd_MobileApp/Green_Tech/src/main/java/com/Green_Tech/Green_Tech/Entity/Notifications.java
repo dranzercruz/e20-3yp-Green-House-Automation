@@ -8,7 +8,6 @@ public class Notifications {
 
     public Notifications() {
         super();
-
     }
 
     public Notifications(String title, String message, String topic) {

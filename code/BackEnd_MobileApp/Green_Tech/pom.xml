@@ -116,8 +116,8 @@
 
 		<dependency>
 			<groupId>com.google.firebase</groupId>
-			<artifactId>firebase-admin</artifactId>
-			<version>9.2.0</version>
+			<artifactId>firebase-messaging</artifactId>
+			<version>24.1.2</version>
 		</dependency>
 
 		<dependency>

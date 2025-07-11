@@ -1,12 +1,17 @@
 package com.Green_Tech.Green_Tech.Controller;
 
+import com.Green_Tech.Green_Tech.CustomException.DeviceNotFoundException;
 import com.Green_Tech.Green_Tech.DTO.ControlSignalRequestDTO;
+import com.Green_Tech.Green_Tech.DTO.DailySensorAverageDTO;
+import com.Green_Tech.Green_Tech.Entity.SensorData;
 import com.Green_Tech.Green_Tech.Service.MQTT.MQTTService;
 import com.Green_Tech.Green_Tech.Service.sensorData.SensorDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,6 +42,13 @@ public class SensorDataController {
                 deviceId, "/command");
         String[] actuators = {"fan", "nitrogen", "phosphorus", "potassium", "water"};
         return "Command Sent: " + actuators[deviceIndex] + " - " + turnOn;
+    }
+
+    @GetMapping(value = "/summary/{id}")
+    public ResponseEntity<List<DailySensorAverageDTO>> getSummary(@PathVariable("id") Long id,
+                                                                  @RequestBody Map<String, Date> dateRange)
+                                                                    throws DeviceNotFoundException {
+        return ResponseEntity.ok(sensorDataService.getSummary(id, dateRange));
     }
 
 }
