@@ -152,3 +152,4 @@ value: {
 });
 
 export default PlantDetail;
+

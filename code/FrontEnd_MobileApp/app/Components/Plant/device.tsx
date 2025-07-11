@@ -1,4 +1,4 @@
-// AllPlantsScreen.js
+// DevicesScreen.tsx
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -11,63 +11,70 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import { Axios } from "../../AxiosRequestBuilder";
-import { usePlantContext } from "../../../Contexts/PlantContext";
+import { useDeviceContext } from "../../../Contexts/DeviceContext";
 
-interface Plant {
+interface Device {
   id: number;
   name: string;
-  description: string;
-  temperatureLow: number;
-  temperatureHigh: number;
-  humidityLow: number;
-  humidityHigh: number;
-  moistureLow: number;
-  moistureHigh: number;
-  nitrogen: number;
-  phosphorus: number;
-  potassium: number;
-  imageData: string;
-  imageType: string;
-  imageName: string;
+  type: string;
+  status: "active" | "inactive" | "offline";
+  lastActive: string;
+  imageData?: string;
+  imageType?: string;
 }
 
-const Plant = () => {
-  const {plants, setPlants} = usePlantContext();
+const DevicesScreen = () => {
+  const { devices, setDevices } = useDeviceContext();
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    const fetchPlants = async () => {
+    const fetchDevices = async () => {
       try {
-        const response = await Axios.get("/plant/getAll");
-        setPlants(response.data);
+        const response = await Axios.get("/device/getAll");
+        setDevices(response.data);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchPlants();
+    fetchDevices();
   }, [refreshing]);
 
-  const renderItem = ({ item }: { item: Plant }) => (
+  const renderItem = ({ item }: { item: Device }) => (
     <TouchableOpacity
       style={styles.card}
       onPress={() =>
         router.push({
-          pathname: "Components/Plant/PlantDetail",
-          params: { plantId: JSON.stringify(item.id) },
+          pathname: "Components/Device/DeviceDetail",
+          params: { deviceId: JSON.stringify(item.id) },
         })
       }
     >
       <Image
         source={
           item.imageData
-            ? { uri: `data:${item.imageType};base64,${item.imageData}` }
-            : require("../../../assets/noImage.jpg")
+            ? { uri: data:${item.imageType};base64,${item.imageData} }
+            : require("../../../assets/noDeviceImage.png")
         }
         style={styles.image}
       />
-      <Text style={styles.name}>{item.name}</Text>
+      <View style={styles.textContainer}>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.type}>{item.type}</Text>
+        <Text style={[styles.status, { color: getStatusColor(item.status) }]}>
+          {item.status.toUpperCase()}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "active": return "#4CAF50";
+      case "inactive": return "#FFC107";
+      case "offline": return "#F44336";
+      default: return "#9E9E9E";
+    }
+  };
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -78,9 +85,9 @@ const Plant = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Available Plants</Text>
+      <Text style={styles.title}>My Devices</Text>
       <FlatList
-        data={plants}
+        data={devices}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         contentContainerStyle={{ paddingBottom: 20 }}
@@ -110,22 +117,34 @@ const styles = StyleSheet.create({
     backgroundColor: "#01694D",
     borderRadius: 12,
     marginBottom: 16,
-    padding: 10,
-    alignItems: "center",
+    padding: 16,
     flexDirection: "row",
-    gap: 30,
+    alignItems: "center",
+    gap: 20,
   },
   image: {
     width: 80,
     height: 80,
     borderRadius: 8,
   },
+  textContainer: {
+    flex: 1,
+  },
   name: {
     fontSize: 18,
     color: "#fff",
     fontWeight: "600",
+    marginBottom: 4,
+  },
+  type: {
+    fontSize: 14,
+    color: "#ccc",
+    marginBottom: 4,
+  },
+  status: {
+    fontSize: 14,
+    fontWeight: "500",
   },
 });
 
-export default Plant;
-
+export default device;
