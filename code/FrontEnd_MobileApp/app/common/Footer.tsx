@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
         <Text style={styles.footerText}>Devices</Text>
       </View>
 
-      <View style={active == "Statistics" ? styles.footerElementActive : styles.footerElement}>
+      {/* <View style={active == "Statistics" ? styles.footerElementActive : styles.footerElement}>
         <TouchableOpacity onPress={() => {
           router.push("Components/Statics/Statistics");
           setActive("Statistics");
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
           <Ionicons name="bar-chart" size={24} color={"#fff"} style={styles.footerIcon}/>
         </TouchableOpacity>
         <Text style={styles.footerText}>Statistics</Text>
-      </View>
+      </View> */}
 
       <View style={active == "Plant" ? styles.footerElementActive : styles.footerElement}>
         <TouchableOpacity onPress={() => {
