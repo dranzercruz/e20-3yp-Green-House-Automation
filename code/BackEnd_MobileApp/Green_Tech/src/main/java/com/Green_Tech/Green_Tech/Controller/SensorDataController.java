@@ -7,9 +7,11 @@ import com.Green_Tech.Green_Tech.Entity.SensorData;
 import com.Green_Tech.Green_Tech.Service.MQTT.MQTTService;
 import com.Green_Tech.Green_Tech.Service.sensorData.SensorDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +48,12 @@ public class SensorDataController {
 
     @GetMapping(value = "/summary/{id}")
     public ResponseEntity<List<DailySensorAverageDTO>> getSummary(@PathVariable("id") Long id,
-                                                                  @RequestBody Map<String, Date> dateRange)
+                                                                  @RequestParam("startDate")
+                                                                  @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+                                                                  @RequestParam("endDate")
+                                                                      @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate)
                                                                     throws DeviceNotFoundException {
-        return ResponseEntity.ok(sensorDataService.getSummary(id, dateRange));
+        return ResponseEntity.ok(sensorDataService.getSummary(id, startDate, endDate));
     }
 
 }

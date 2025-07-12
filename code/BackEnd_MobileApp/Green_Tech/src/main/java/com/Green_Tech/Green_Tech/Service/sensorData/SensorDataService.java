@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -111,16 +112,13 @@ public class SensorDataService {
         return result;
     }
 
-    public List<DailySensorAverageDTO> getSummary(Long id, Map<String, Date> dateRange)
+    public List<DailySensorAverageDTO> getSummary(Long id, Date startDate, Date endDate)
             throws DeviceNotFoundException {
 
         if(!deviceRepo.existsById(id)){
             throw new DeviceNotFoundException("Device not found to fetch the data");
         }
 
-        Date start = dateRange.get("startDate");
-        Date end = dateRange.get("endDate");
-
-        return sensorDataRepository.findByIdAndDateRange(id, start, end);
+        return sensorDataRepository.findByIdAndDateRange(id, startDate, endDate);
     }
 }
