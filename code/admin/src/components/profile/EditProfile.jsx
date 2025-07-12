@@ -9,7 +9,7 @@ const EditProfile = ({ onSave }) => {
   const [email, setEmail] = useState(user?.email || '');
   const [phoneNumber, setPhoneNumber] = useState(user?.phoneNumber || '');
   const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(user?.profileImage || require('../../assets/profile_picture.webp'));
+  const [imagePreview, setImagePreview] = useState(`data:${user.imageType};base64,${user.imageData}` || require('../../assets/profile_picture.webp'));
 
   const handleSave = async () => {
     // Handle the save functionality, passing the updated data back

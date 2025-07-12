@@ -1,58 +1,110 @@
 .device-container {
   display: flex;
+  flex-direction: column;
   height: calc(100vh - 90px);
   width: calc(100vw - 240px);
   margin-left: 240px;
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 15px 0 0 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
 
 .device-content {
-  margin-left: 20px;
-  padding: 30px 20px;
   flex: 1;
+  padding: 30px;
   overflow-x: auto;
 }
 
 .device-heading {
-  font-size: 22px;
-  margin-bottom: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 40px;
   color: #1b4332;
+  border-bottom: 2px solid #d4e8dd;
+  padding-bottom: 10px;
 }
 
 .device-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 16px;
+  font-size: 15px;
+  color: #333;
+}
+
+.device-table thead {
+  background-color: #f8f9fa;
 }
 
 .device-table thead tr {
-  text-align: left;
-  border-bottom: 2px solid #ddd;
-  height: 40px;
+  height: 45px;
+  font-weight: 600;
+  text-align: center; 
+}
+
+.device-table th,
+.device-table td {
+  text-align: center; 
+  padding: 12px 15px;
 }
 
 .device-table tbody tr {
-  border-bottom: 1px solid #f0f0f0;
-  height: 50px;
-  padding: 10px 0;
+  border-bottom: 1px solid #e6e6e6;
+  transition: background-color 0.2s ease;
+}
+
+.device-table tbody tr:hover {
+  background-color: #f1fdf4;
+}
+
+.edit-button,
+.delete-button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .edit-button {
   background-color: #3498db;
   color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #2980b9;
 }
 
 .delete-button {
   background-color: #e74c3c;
   color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
   margin-left: 10px;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .device-container {
+    width: 100vw;
+    margin-left: 0;
+    border-radius: 0;
+  }
+
+  .device-content {
+    padding: 20px;
+  }
+
+  .device-heading {
+    font-size: 20px;
+  }
+
+  .edit-button,
+  .delete-button {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
 }

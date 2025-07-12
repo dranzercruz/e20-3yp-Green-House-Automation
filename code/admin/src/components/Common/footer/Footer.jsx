@@ -11,7 +11,8 @@ const Footer = () => (
     bottom: 0,
     right: 0,
     left: 0,
-    fontSize: "0.75rem"
+    fontSize: "0.75rem",
+    fontWeight: "bold"
   }}>
     &copy; 2025 Greenhouse Automation
   </footer>

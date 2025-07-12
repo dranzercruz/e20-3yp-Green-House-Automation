@@ -57,12 +57,6 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
         >
           Profile
         </div>
-        <div
-          className={`sidebar-item ${activeTab === 'setting' ? 'active' : ''}`}
-          onClick={() => handleTabClick('setting')}
-        >
-          Settings
-        </div>
 
       </div>
 

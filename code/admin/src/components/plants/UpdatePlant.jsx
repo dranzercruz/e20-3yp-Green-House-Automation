@@ -197,12 +197,12 @@ const styles = {
     width: '500px',
     maxHeight: '80vh',
     overflowY: 'auto',
-    background: 'linear-gradient(to bottom right, #014d36, #012A1C)',
+    background: '#e6f0ea',
     
   },
   title: {
     marginBottom: '20px',
-    color: '#fff',
+    color: '#000',
     fontWeight: '700',
     fontSize: '24px',
     textAlign: 'center',
@@ -210,7 +210,7 @@ const styles = {
   label: {
     display: 'block',
     marginBottom: '12px',
-    color: '#fff',
+    color: '#000',
     fontWeight: '600',
   },
     doubleInputRow: {

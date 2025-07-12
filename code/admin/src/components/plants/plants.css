@@ -18,8 +18,10 @@
 
 .plant-heading {
     color: #1b4332;
-    font-size: 22px;
-    margin-bottom: 15px;
+    font-size: 24px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
 }
 
 .add-plant-btn {

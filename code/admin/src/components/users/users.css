@@ -1,73 +1,133 @@
 .users-container {
   display: flex;
+  flex-direction: column;
   height: calc(100vh - 90px);
   width: calc(100vw - 240px);
   margin-left: 240px;
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 15px 0 0 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
 
 .users-main-content {
-  margin-left: 20px;
-  padding: 30px 20px;
   flex: 1;
+  padding: 30px;
   overflow-x: auto;
-  background-color: white;
+  background-color: #ffffff;
 }
 
 .users-header {
   color: #1b4332;
-  font-size: 22px;
-  margin-bottom: 15px;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #d4e8dd;
+  padding-bottom: 10px;
 }
 
 .add-user-btn {
   background-color: #105739;
-  color: #fff;
+  color: #ffffff;
   border: none;
-  padding: 8px 20px;
-  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
   cursor: pointer;
-  margin: 10px 0 5px 0;
+  margin-bottom: 20px;
+  transition: background-color 0.2s ease;
+}
+
+.add-user-btn:hover {
+  background-color: #0b3c28;
 }
 
 .users-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 16px;
+  font-size: 15px;
+  color: #333;
+}
+
+.users-table thead {
+  background-color: #f8f9fa;
 }
 
 .users-table thead tr {
-  text-align: left;
-  border-bottom: 2px solid #ddd;
-  height: 40px;
+  text-align: center;
+  height: 45px;
+  font-weight: 600;
+}
+
+.users-table th,
+.users-table td {
+  text-align: center;
+  padding: 12px 15px;
 }
 
 .users-table tbody tr {
-  border-bottom: 1px solid #f0f0f0;
-  height: 50px;
+  border-bottom: 1px solid #e6e6e6;
+  transition: background-color 0.2s ease;
 }
 
-.users-table td,
-.users-table th {
-  padding: 10px 5px;
+.users-table tbody tr:hover {
+  background-color: #f1fdf4;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .edit-btn {
   background-color: hsl(136, 63%, 25%);
   color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: hsl(136, 63%, 20%);
 }
 
 .delete-btn {
   background-color: #e74c3c;
   color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
   margin-left: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .users-container {
+    width: 100vw;
+    margin-left: 0;
+    border-radius: 0;
+  }
+
+  .users-main-content {
+    padding: 20px;
+  }
+
+  .users-header {
+    font-size: 20px;
+  }
+
+  .add-user-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
 }
