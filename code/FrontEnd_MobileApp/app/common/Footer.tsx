@@ -15,9 +15,9 @@ const Footer: React.FC = () => {
           router.push("Components/Home/Home");
           setActive("Home");
         }}>
-          <Ionicons name="home" size={24} color={"#fff"} style={styles.footerIcon}/>
+          <Ionicons name="home" size={24} color={theme.colors.text} style={styles.footerIcon}/>
         </TouchableOpacity>
-        <Text style={styles.footerText}>Home</Text>
+        <Text style={[styles.footerText, {color: theme.colors.text}]}>Home</Text>
       </View>
 
       <View style={active == "Devices" ? styles.footerElementActive : styles.footerElement}>
@@ -25,9 +25,9 @@ const Footer: React.FC = () => {
           router.push("Components/Device/DisplayList");
           setActive("Devices");
         }}>
-          <Ionicons name="radio-sharp" size={24} color={"#fff"} style={styles.footerIcon}/>
+          <Ionicons name="radio-sharp" size={24} color={theme.colors.text} style={styles.footerIcon}/>
         </TouchableOpacity>
-        <Text style={styles.footerText}>Devices</Text>
+        <Text style={[styles.footerText, {color: theme.colors.text}]}>Devices</Text>
       </View>
 
       {/* <View style={active == "Statistics" ? styles.footerElementActive : styles.footerElement}>
@@ -45,9 +45,9 @@ const Footer: React.FC = () => {
           router.push("Components/Plant/Plant");
           setActive("Plant");
         }}>
-          <Ionicons name="planet" size={24} color={"#fff"} style={styles.footerIcon}/>
+          <Ionicons name="planet" size={24} color={theme.colors.text} style={styles.footerIcon}/>
         </TouchableOpacity>
-        <Text style={styles.footerText}>Plant</Text>
+        <Text style={[styles.footerText, {color: theme.colors.text}]}>Plant</Text>
       </View>
     </View>
   );

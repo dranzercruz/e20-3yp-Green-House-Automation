@@ -55,21 +55,21 @@ const Profile: React.FC = () => {
       <View style={[styles.detailsContainer, {backgroundColor: theme.colors.primary}]}>
         <View style={styles.detailsContent}>
           <View style={styles.detailsRow}>
-            <Text style={styles.label}>Name</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{user?.name }</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Name</Text>
+            <Text style={[styles.separator, {color: theme.colors.text}]}>:</Text>
+            <Text style={[styles.value, {color: theme.colors.text}]}>{user?.name }</Text>
           </View>
 
           <View style={styles.detailsRow}>
-            <Text style={styles.label}>Email</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{ user?.email}</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Email</Text>
+            <Text style={[styles.separator, {color: theme.colors.text}]}>:</Text>
+            <Text style={[styles.value, {color: theme.colors.text}]}>{ user?.email}</Text>
           </View>
 
           <View style={styles.detailsRow}>
-            <Text style={styles.label}>Contact No</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{user?.phoneNumber }</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Contact No</Text>
+            <Text style={[styles.separator, {color: theme.colors.text}]}>:</Text>
+            <Text style={[styles.value, {color: theme.colors.text}]}>{user?.phoneNumber }</Text>
           </View>
         </View>
       </View>

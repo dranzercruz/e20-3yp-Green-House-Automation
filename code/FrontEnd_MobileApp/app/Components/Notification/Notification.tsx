@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+import { themeAuth } from '../../../Contexts/ThemeContext';
 
 const tones = ['Default', 'Soft Chime', 'Nature Ding', 'Alert Buzz'];
 
 const Notification = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [selectedTone, setSelectedTone] = useState('Default');
+  const { theme } = themeAuth();
 
   const toggleSwitch = () => setNotificationsEnabled(previous => !previous);
 
@@ -22,12 +24,12 @@ const Notification = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Notification Settings</Text>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
+      <Text style={[styles.header, {color: theme.colors.text}]}>Notification Settings</Text>
 
       {/* Enable/Disable Notifications */}
       <View style={styles.row}>
-        <Text style={styles.label}>Enable Notifications</Text>
+        <Text style={[styles.label, {color: theme.colors.text}]}>Enable Notifications</Text>
         <Switch
           value={notificationsEnabled}
           onValueChange={toggleSwitch}
@@ -37,7 +39,7 @@ const Notification = () => {
       </View>
 
       {/* Notification Tone Selection */}
-      <Text style={styles.subHeader}>Notification Tone</Text>
+      <Text style={[styles.subHeader, {color: theme.colors.text}]}>Notification Tone</Text>
       {tones.map((tone, index) => (
         <TouchableOpacity
           key={index}
@@ -45,9 +47,10 @@ const Notification = () => {
           style={[
             styles.toneOption,
             selectedTone === tone && styles.toneSelected,
+            {backgroundColor: theme.colors.cardBackground}
           ]}
         >
-          <Text style={styles.toneText}>
+          <Text style={[styles.toneText, {color: theme.colors.text}]}>
             {selectedTone === tone ? '✔ ' : ''}{tone}
           </Text>
         </TouchableOpacity>

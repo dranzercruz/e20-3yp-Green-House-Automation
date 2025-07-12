@@ -12,6 +12,7 @@ import {
 import { router } from "expo-router";
 import { Axios } from "../../AxiosRequestBuilder";
 import { usePlantContext } from "../../../Contexts/PlantContext";
+import { themeAuth } from "../../../Contexts/ThemeContext";
 
 interface Plant {
   id: number;
@@ -34,6 +35,7 @@ interface Plant {
 const Plant = () => {
   const {plants, setPlants} = usePlantContext();
   const [refreshing, setRefreshing] = useState(false);
+  const { theme } = themeAuth();
 
   useEffect(() => {
     const fetchPlants = async () => {
@@ -49,7 +51,7 @@ const Plant = () => {
 
   const renderItem = ({ item }: { item: Plant }) => (
     <TouchableOpacity
-      style={styles.card}
+      style={[styles.card, {backgroundColor: theme.colors.cardBackground}]}
       onPress={() =>
         router.push({
           pathname: "Components/Plant/PlantDetail",
@@ -65,7 +67,7 @@ const Plant = () => {
         }
         style={styles.image}
       />
-      <Text style={styles.name}>{item.name}</Text>
+      <Text style={[styles.name, {color: theme.colors.text}]}>{item.name}</Text>
     </TouchableOpacity>
   );
 
@@ -77,8 +79,8 @@ const Plant = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Available Plants</Text>
+    <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
+      <Text style={[styles.title, {color: theme.colors.text}]}>Available Plants</Text>
       <FlatList
         data={plants}
         keyExtractor={(item) => item.id.toString()}
@@ -114,6 +116,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     gap: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 2,
   },
   image: {
     width: 80,

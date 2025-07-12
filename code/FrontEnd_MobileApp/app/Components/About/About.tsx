@@ -1,27 +1,29 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
+import { themeAuth } from '../../../Contexts/ThemeContext';
 
 const AboutScreen = () => {
+  const { theme } = themeAuth();
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={[styles.container, {backgroundColor: theme.colors.background}]}>
       <Image
         source={require('../../../assets/greenHouse.jpg')} // replace with your actual image
         style={styles.image}
       />
 
-      <Text style={styles.title}>Green-Tech</Text>
-      <Text style={styles.subtitle}>Smart Greenhouse Automation</Text>
+      <Text style={[styles.title, {color: theme.colors.text}]}>Green-Tech</Text>
+      <Text style={[styles.subtitle, {color: theme.colors.text}]}>Smart Greenhouse Automation</Text>
 
-      <Text style={styles.sectionTitle}>🌱 About the Project</Text>
-      <Text style={styles.text}>
+      <Text style={[styles.sectionTitle, {color: theme.colors.text}]}>🌱 About the Project</Text>
+      <Text style={[styles.text, {color: theme.colors.text}]}>
         Green-Tech is a smart greenhouse automation system designed to monitor and control
         environmental parameters such as temperature, humidity, soil moisture, and light.
         It ensures optimal plant growth with minimal manual intervention by leveraging
         IoT-based sensors and cloud technology.
       </Text>
 
-      <Text style={styles.sectionTitle}>⚙️ Key Features</Text>
-      <Text style={styles.text}>
+      <Text style={[styles.sectionTitle, {color: theme.colors.text}]}>⚙️ Key Features</Text>
+      <Text style={[styles.text, {color: theme.colors.text}]}>
         • Real-time monitoring of temperature, humidity, soil moisture{'\n'}
         • Automated irrigation system based on sensor data{'\n'}
         • Mobile app control and live data dashboard{'\n'}
@@ -29,14 +31,14 @@ const AboutScreen = () => {
         • Cloud-based storage and analytics
       </Text>
 
-      <Text style={styles.sectionTitle}>🎯 Mission</Text>
-      <Text style={styles.text}>
+      <Text style={[styles.sectionTitle, {color: theme.colors.text}]}>🎯 Mission</Text>
+      <Text style={[styles.text, {color: theme.colors.text}]}>
         Our mission is to promote sustainable agriculture by providing farmers and greenhouse
         owners with an intelligent, affordable, and efficient solution for growing crops using smart technology.
       </Text>
 
-      <Text style={styles.sectionTitle}>📡 Technologies Used</Text>
-      <Text style={styles.text}>
+      <Text style={[styles.sectionTitle, {color: theme.colors.text}]}>📡 Technologies Used</Text>
+      <Text style={[styles.text, {color: theme.colors.text}]}>
         • ESP32 Microcontroller{'\n'}
         • DHT22, Capacitive Moisture Sensor, LDR{'\n'}
         • AWS IoT Core, MQTT Protocol{'\n'}
@@ -44,7 +46,7 @@ const AboutScreen = () => {
         • Firebase / AWS DynamoDB (Cloud Storage)
       </Text>
 
-      <Text style={styles.footer}>© 2025 Green-Tech Project. All rights reserved.</Text>
+      <Text style={[styles.footer, {color: theme.colors.text}]}>© 2025 Green-Tech Project. All rights reserved.</Text>
     </ScrollView>
   );
 };

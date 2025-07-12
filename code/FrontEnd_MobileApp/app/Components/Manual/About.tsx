@@ -7,8 +7,8 @@ const About = () => {
   return (
     <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
         <Text style={[styles.heading, {color: theme.colors.text}]}>About</Text>
-    
-        <View style={styles.contentContainer}>
+
+        <View style={[styles.contentContainer, {backgroundColor: theme.colors.cardBackground}]}>
             <Text style={[styles.subtitle, {color: theme.colors.text}]}>Green-Tech App</Text>
             <Text style={{color: theme.colors.text, fontSize: 16}}>
                 Green-Tech app is designed to help you manage your green house devices and provide information about the system.

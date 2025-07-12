@@ -24,11 +24,11 @@ const Setting = () => {
           }
         >
 
-        <View style={styles.profileContainer}>
+        <View style={[styles.profileContainer, {backgroundColor: theme.colors.primary}]}>
           <Image source={user?.imageData ? { uri: `data:${user?.imageData};base64,${user?.imageData}` } : require('../../../assets/profile_picture.webp')} style={styles.profilePicture}/>
           <View>
-            <Text style={styles.profileName}>{user?.name}</Text>
-            <Text style={styles.profileEmail}>{user?.email}</Text>
+            <Text style={[styles.profileName, {color: theme.colors.text}]}>{user?.name}</Text>
+            <Text style={[styles.profileEmail, {color: theme.colors.text}]}>{user?.email}</Text>
           </View>
         </View>
 

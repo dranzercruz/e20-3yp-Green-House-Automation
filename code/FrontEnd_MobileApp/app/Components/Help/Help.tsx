@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // or 'react-native-vector-icons/Ionicons'
+import { themeAuth } from '../../../Contexts/ThemeContext';
 
 const supportTeam = [
   {
@@ -26,18 +27,20 @@ const supportTeam = [
 ];
 
 const HelpSupportScreen = () => {
+  const { theme } = themeAuth();
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.header}>📞 Help & Support</Text>
-      <Text style={styles.description}>
+    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: theme.colors.background }]} showsVerticalScrollIndicator={false}>
+      <Text style={[styles.header, { color: theme.colors.text }]}>📞 Help & Support</Text>
+      <Text style={[styles.description, { color: theme.colors.text }]}>
         Need assistance? Our support team is here to help you with anything related to Green-Tech.
       </Text>
 
       {supportTeam.map((person, index) => (
-        <View key={index} style={styles.card}>
-          <Text style={styles.name}>{person.name}</Text>
-          <Text style={styles.detail}><Ionicons name="call" size={16} color="#10B981" /> {person.phone}</Text>
-          <Text style={styles.detail}><Ionicons name="mail" size={16} color="#10B981" /> {person.email}</Text>
+        <View key={index} style={[styles.card, { backgroundColor: theme.colors.cardBackground }]}>
+          <Text style={[styles.name, { color: theme.colors.text }]}>{person.name}</Text>
+          <Text style={[styles.detail, { color: theme.colors.text }]}><Ionicons name="call" size={16} color="#10B981" /> {person.phone}</Text>
+          <Text style={[styles.detail, { color: theme.colors.text }]}><Ionicons name="mail" size={16} color="#10B981" /> {person.email}</Text>
         </View>
       ))}
 

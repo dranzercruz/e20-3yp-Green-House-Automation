@@ -24,7 +24,7 @@ const GrowComponents: React.FC<GrowComponentsProps> = ({ isEnabled, toggleStatus
 
   return (
     <View style={[styles.section, { backgroundColor: theme.colors.primary }]}>
-      <Text style={styles.title}>GROW COMPONENTS</Text>
+      <Text style={[styles.title, {color: theme.colors.text}]}>GROW COMPONENTS</Text>
       <View style={styles.growContainer}>
         {[
           { name: 'Fan', icon: 'flower', isOn: isEnabled[0] },
@@ -34,13 +34,24 @@ const GrowComponents: React.FC<GrowComponentsProps> = ({ isEnabled, toggleStatus
           { name: 'Water', icon: 'water', isOn: isEnabled[4] },
         ].map((item, index) => (
           <View key={index} style={styles.growItem}>
-            <Text style={styles.growLabel}>{item.name}</Text>
-            <View style={[styles.circle, isEnabled[index] ? styles.activeCircle : [styles.inactiveCircle, { backgroundColor: theme.dark ? "#264B44" : "#01694D" }]]}>
-              <Ionicons name={item.icon as any} size={32} color={isEnabled[index] ? '#16F08B' : '#5F6E67'} />
+            <Text style={[styles.growLabel, {color: theme.colors.text}]}>{item.name}</Text>
+            <View style={[styles.circle, isEnabled[index] ? [styles.activeCircle, { backgroundColor: theme.dark ? "#264B44" : "#acfda3ff" }] : [styles.inactiveCircle, { backgroundColor: theme.dark ? "#264B44" : "#a9a9a9ff" }]]}>
+              <Ionicons name={item.icon as any} size={32} color={isEnabled[index] ? theme.dark ? '#16F08B' : '#239300ff' : theme.dark ? '#cccccc' : '#fff'} />
             </View>
 
             <TouchableOpacity
-              style={[styles.statusButton, isEnabled[index] ? styles.statusOn : styles.statusOff]}
+              style={[
+                styles.statusButton,
+                {
+                  backgroundColor: isEnabled[index]
+                    ? theme.dark
+                      ? '#16F08B'
+                      : '#239300ff'
+                    : theme.dark
+                      ? '#cccccc'
+                      : '#fff'
+                }
+              ]}
               onPress={() => sendControlSignal(index, !isEnabled[index])}
             >
               <Ionicons name="checkmark-circle" size={18} color={isEnabled[index] ? '#16F08B' : '#555'} />

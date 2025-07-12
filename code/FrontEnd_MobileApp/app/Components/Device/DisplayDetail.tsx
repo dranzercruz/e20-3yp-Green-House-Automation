@@ -34,9 +34,12 @@ interface Plant {
   id: number;
   name: string;
   description: string;
-  temperature: number;
-  moisture: number;
-  humidity: number;
+  temperatureLow: number;
+  temperatureHigh: number;
+  humidityLow: number;
+  humidityHigh: number;
+  moistureLow: number;
+  moistureHigh: number;
   phosphorus: number;
   nitrogen: number;
   potassium: number;
@@ -67,7 +70,7 @@ const DisplayDetail: React.FC = () => {
     location: "",
     addedAt: "",
     active:false,
-    isThresholdAssigned: false,
+    thresholdAssigned: false,
     user: {
       name: "",
       email: "",
@@ -80,9 +83,12 @@ const DisplayDetail: React.FC = () => {
       id: 0,
       name: "",
       description: "",
-      temperature: 0,
-      moisture: 0,
-      humidity: 0,
+      temperatureLow: 0,
+      temperatureHigh: 0,
+      moistureLow: 0,
+      moistureHigh: 0,
+      humidityLow: 0,
+      humidityHigh: 0,
       phosphorus: 0,
       nitrogen: 0,
       potassium: 0,
@@ -192,7 +198,7 @@ const DisplayDetail: React.FC = () => {
             location: "",
             addedAt: "",
             active: false,
-            isThresholdAssigned: false,
+            thresholdAssigned: false,
             user: {
               name: "",
               email: "",
@@ -205,9 +211,12 @@ const DisplayDetail: React.FC = () => {
               id: 0,
               name: "",
               description: "",
-              temperature: 0,
-              moisture: 0,
-              humidity: 0,
+              temperatureLow: 0,
+              temperatureHigh: 0,
+              moistureLow: 0,
+              moistureHigh: 0,
+              humidityLow: 0,
+              humidityHigh: 0,
               phosphorus: 0,
               nitrogen: 0,
               potassium: 0,
@@ -238,7 +247,7 @@ const DisplayDetail: React.FC = () => {
       >
         <View style={styles.header}>
           <TouchableOpacity style={styles.deleteBtn} onPress={() => {handleDeleteDevice(device.id)}}>
-            <Ionicons name="trash" size={22} color="white" style={{marginTop: 20}}/>
+            <Ionicons name="trash" size={22} color={theme.dark ? "white" : "black"} style={{marginTop: 20}}/>
           </TouchableOpacity>
 
           <Text style={[styles.headerTitle, {color: theme.colors.text}]}>Device Details</Text>

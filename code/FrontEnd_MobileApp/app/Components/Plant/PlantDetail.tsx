@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, Image, ScrollView, StyleSheet, RefreshControl } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { usePlantContext } from '../../../Contexts/PlantContext';
+import { themeAuth } from '../../../Contexts/ThemeContext';
 
 interface Plant {
     id: number;
@@ -23,6 +24,7 @@ interface Plant {
 }
 
 const PlantDetail = () => {
+    const {theme} = themeAuth();
     const {plants} = usePlantContext();
     const [plant, setPlant] = useState<Plant>({
         id: 0,
@@ -85,36 +87,36 @@ const PlantDetail = () => {
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.container}
+        <ScrollView contentContainerStyle={[styles.container, {backgroundColor: theme.colors.background}]}
                 refreshControl={
                 <RefreshControl refreshing={false} onRefresh={onRefresh} />
                 }
             >
-            <Text style={styles.title}>{plant.name}</Text>
+            <Text style={[styles.title, {color: theme.colors.text}]}>{plant.name}</Text>
             <Image
                 source={{ uri: `data:${plant.imageType};base64,${plant.imageData}` } }
                 style={styles.image}
             />
-            <Text style={styles.label}>Description:</Text>
-            <Text style={styles.value}>{plant.description}</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Description:</Text>
+            <Text style={[styles.value, {color: theme.colors.text}]}>{plant.description}</Text>
 
-            <Text style={styles.label}>Temperature:</Text>
-            <Text style={styles.value}>{plant.temperatureLow}°C - {plant.temperatureHigh}°C</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Temperature:</Text>
+            <Text style={[styles.value, {color: theme.colors.text}]}>{plant.temperatureLow}°C - {plant.temperatureHigh}°C</Text>
 
-            <Text style={styles.label}>Humidity:</Text>
-            <Text style={styles.value}>{plant.humidityLow}% - {plant.humidityHigh}%</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Humidity:</Text>
+            <Text style={[styles.value, {color: theme.colors.text}]}>{plant.humidityLow}% - {plant.humidityHigh}%</Text>
 
-            <Text style={styles.label}>Moisture:</Text>
-            <Text style={styles.value}>{plant.moistureLow}% - {plant.moistureHigh}%</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Moisture:</Text>
+            <Text style={[styles.value, {color: theme.colors.text}]}>{plant.moistureLow}% - {plant.moistureHigh}%</Text>
 
-            <Text style={styles.label}>Nitrogen:</Text>
-            <Text style={styles.value}>{plant.nitrogen} mg/kg</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Nitrogen:</Text>
+            <Text style={[styles.value, {color: theme.colors.text}]}>{plant.nitrogen} mg/kg</Text>
 
-            <Text style={styles.label}>Phosphorus:</Text>
-            <Text style={styles.value}>{plant.phosphorus} mg/kg</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Phosphorus:</Text>
+            <Text style={[styles.value, {color: theme.colors.text}]}>{plant.phosphorus} mg/kg</Text>
 
-            <Text style={styles.label}>Potassium:</Text>
-            <Text style={styles.value}>{plant.potassium} mg/kg</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Potassium:</Text>
+            <Text style={[styles.value, {color: theme.colors.text}]}>{plant.potassium} mg/kg</Text>
         </ScrollView>
     );
     };
@@ -137,9 +139,14 @@ image: {
     height: 200,
     borderRadius: 12,
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 2,
 },
 label: {
-    color: 'rgb(3, 128, 7)',
+    color: '#fff',
     fontSize: 17,
     fontWeight: '600',
     marginTop: 10,

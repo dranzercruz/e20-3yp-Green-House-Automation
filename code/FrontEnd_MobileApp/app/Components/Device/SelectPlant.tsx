@@ -2,6 +2,7 @@ import { View, Text, Modal, FlatList, Image, StyleSheet, TouchableOpacity } from
 import React, { useEffect, useState } from 'react'
 import { Axios } from '../../AxiosRequestBuilder'
 import { Ionicons } from "@expo/vector-icons";
+import { themeAuth } from '../../../Contexts/ThemeContext';
 
 interface Plant {
   id: number;
@@ -29,7 +30,8 @@ interface SelectPlantProps {
 
 const SelectPlant = ({ modalVisible, setModalVisible, setSelectedPlant }: SelectPlantProps) => {
   const [plants, setPlants] = useState<Plant[]>([]);
-  
+  const { theme } = themeAuth();
+
   useEffect(() => {
     const fetchPlants = async () => {
       try {
@@ -49,11 +51,11 @@ const SelectPlant = ({ modalVisible, setModalVisible, setSelectedPlant }: Select
 
   return (
     <Modal visible={modalVisible} transparent style={styles.modal}>
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-              <Text style={styles.heading}>Plants</Text>
+              <Text style={[styles.heading, {color: theme.colors.text}]}>Plants</Text>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
-                  <Ionicons name="close" size={24} color="white" />
+                  <Ionicons name="close" size={24} color={theme.dark ? "white" : "black"} />
               </TouchableOpacity>
             </View>
             <View style={styles.listContainer}>
@@ -61,10 +63,10 @@ const SelectPlant = ({ modalVisible, setModalVisible, setSelectedPlant }: Select
                   data={plants}
                   renderItem={({item}: {item:Plant}) => (
                     <TouchableOpacity onPress={() => handlePlantSelect(item)}>
-                      <View style={styles.plantView}>
+                      <View style={[styles.plantView, {backgroundColor: theme.colors.cardBackground}]}>
                           <Image source={item.imageData ? { uri: `data:${item.imageType};base64,${item.imageData}` } :
                            require("../../../assets/noImage.jpg")} style={styles.plantImage}/>
-                          <Text style={styles.plantName}>{item.name}</Text>
+                          <Text style={[styles.plantName, {color: theme.colors.text}]}>{item.name}</Text>
                       </View>
                     </TouchableOpacity>
                   )}
@@ -87,6 +89,8 @@ const styles = StyleSheet.create({
     marginTop: "35%",
     borderRadius: 16,
     padding: 16,
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   listContainer: {
     flex: 1,
@@ -106,7 +110,12 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 8,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 2,
   },
   plantName:{
     fontSize: 18,

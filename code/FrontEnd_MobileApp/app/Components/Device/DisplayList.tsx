@@ -23,9 +23,12 @@ type Plant = {
   id: number;
   name: string;
   description: string;
-  temperature: number;
-  moisture: number;
-  humidity: number;
+  temperatureLow: number;
+  temperatureHigh: number;
+  humidityLow: number;
+  humidityHigh: number;
+  moistureLow: number;
+  moistureHigh: number;
   phosphorus: number;
   nitrogen: number;
   potassium: number;
@@ -87,18 +90,18 @@ const DeviceListScreen: React.FC = () => {
       <TouchableOpacity onPress={() => directToDetail(item)}>
         <View style={[styles.card, {backgroundColor: theme.colors.cardBackground}]}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.deviceName}>{item.name}</Text>
+            <Text style={[styles.deviceName, {color: theme.colors.text}]}>{item.name}</Text>
             {
               (item.active && item.thresholdAssigned) ?
-              <Ionicons name="checkmark-circle" size={24} color="white" /> :
-              <Ionicons name="close-circle" size={24} color="yellow" />
+              <Ionicons name="checkmark-circle" size={24} color={theme.dark ? "white" : "black"} /> :
+              <Ionicons name="close-circle" size={24} color={theme.dark ? "white" : "#aaa"} />
             }
           </View>
-          <Text style={styles.deviceDetails}>MAC: {item.mac}</Text>
-          <Text style={styles.deviceDetails}>Zone: {item.zoneName}</Text>
-          <Text style={styles.deviceDetails}>Location: {item.location}</Text>
+          <Text style={[styles.deviceDetails, {color: theme.colors.text}]}>MAC: {item.mac}</Text>
+          <Text style={[styles.deviceDetails, {color: theme.colors.text}]}>Zone: {item.zoneName}</Text>
+          <Text style={[styles.deviceDetails, {color: theme.colors.text}]}>Location: {item.location}</Text>
           <View style={styles.timeContainer}>
-            <Text style={styles.time}>Added At: {new Date(item.addedAt).toLocaleString()}</Text>
+            <Text style={[styles.time, {color: theme.colors.text}]}>Added At: {new Date(item.addedAt).toLocaleString()}</Text>
           </View>
         </View>
       </TouchableOpacity>

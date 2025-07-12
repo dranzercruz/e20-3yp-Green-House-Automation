@@ -186,7 +186,7 @@ public class DeviceService {
                 .mac(device.getMac())
                 .addedAt(device.getAddedAt())
                 .zoneName(device.getZoneName())
-                .name(device.getZoneName())
+                .name(device.getName())
                 .location(device.getLocation())
                 .userId(device.getUser().getId())
                 .active(device.isActive())

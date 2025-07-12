@@ -152,7 +152,7 @@ const Profile: React.FC = () => {
               style={[styles.profileImage, {borderColor: theme.colors.text}]}
               />
           </View>
-          <Ionicons name="camera" size={26} color={theme.colors.text} onPress={handlePickImage}/>
+          <Ionicons name="camera" size={30} style={{marginTop: 10}} color={theme.colors.text} onPress={handlePickImage}/>
         </View>
 
       </View>
@@ -160,10 +160,10 @@ const Profile: React.FC = () => {
       <View style={[styles.detailsContainer, {backgroundColor: theme.colors.primary}]}>
         <View style={styles.detailsContent}>
           <View style={styles.detailsRow}>
-            <Text style={styles.label}>Name</Text>
-            <Text style={styles.separator}>:</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Name</Text>
+            <Text style={[styles.separator, {color: theme.colors.text}]}>:</Text>
             <TextInput
-              style={styles.value}
+              style={[styles.value, {color: theme.colors.text, borderBottomColor: theme.colors.text}]}
               value={user?.name || ""}
               onChangeText={(text) => handleInput(text, "name")}
               placeholderTextColor="white"
@@ -171,16 +171,16 @@ const Profile: React.FC = () => {
           </View>
 
           <View style={styles.detailsRow}>
-            <Text style={styles.label}>Email</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{user?.email}</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Email</Text>
+            <Text style={[styles.separator, {color: theme.colors.text}]}>:</Text>
+            <Text style={[styles.value, {color: theme.colors.text, borderBottomColor: theme.colors.text}]}>{user?.email}</Text>
           </View>
 
           <View style={styles.detailsRow}>
-            <Text style={styles.label}>Contact-No</Text>
-            <Text style={styles.separator}>:</Text>
+            <Text style={[styles.label, {color: theme.colors.text}]}>Contact-No</Text>
+            <Text style={[styles.separator, {color: theme.colors.text}]}>:</Text>
             <TextInput
-              style={styles.value}
+              style={[styles.value, {color: theme.colors.text, borderBottomColor: theme.colors.text}]}
               value={user?.phoneNumber?.toString() || ""}
               onChangeText={(text) => handleInput(text.replace(/[^0-9]/g, ""), "phoneNumber")}
               placeholderTextColor="white"

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { CircularProgressBase  } from 'react-native-circular-progress-indicator';
-import { Axios } from '../../AxiosRequestBuilder';
 import { themeAuth } from '../../../Contexts/ThemeContext';
 
 interface GrowDataItem {
@@ -51,12 +50,12 @@ const GrowData: React.FC<GrowDataProps> = ({deviceId, sensorData, error}) => {
 
   return (
     <View style={[styles.growDataSection, { backgroundColor: theme.colors.primary }]}>
-      <Text style={styles.growDataMainTitle}>GROW DATA</Text>
+      <Text style={[styles.growDataMainTitle, {color: theme.colors.text}]}>GROW DATA</Text>
 
       <View style={styles.rowContainer}>
         {firstRow.map((item, index) => (
           <View key={index} style={styles.growDataItem}>
-            <Text style={styles.growDataTitle}>{item.name}</Text>
+            <Text style={[styles.growDataTitle, {color: theme.colors.text}]}>{item.name}</Text>
             <CircularProgressBase
               value={(item.percentage || 0) * 100} // Convert to 0-100%
               radius={40}
@@ -69,8 +68,8 @@ const GrowData: React.FC<GrowDataProps> = ({deviceId, sensorData, error}) => {
               inActiveStrokeWidth={5}
             >
               <View style={styles.iconOverlay}>
-                <Text style={styles.circleValue}>{item.value}</Text>
-                <Text style={styles.unitText}>{item.unit}</Text>
+                <Text style={[styles.circleValue, { color: theme.colors.text }]}>{item.value}</Text>
+                <Text style={[styles.unitText, { color: theme.colors.text }]}>{item.unit}</Text>
                 <Ionicons name={item.icon} size={20} color="#16F08B" style={styles.iconInside} />
               </View>
             </CircularProgressBase>
@@ -81,7 +80,7 @@ const GrowData: React.FC<GrowDataProps> = ({deviceId, sensorData, error}) => {
       <View style={styles.rowContainer}>
         {secondRow.map((item, index) => (
           <View key={index} style={styles.growDataItem}>
-            <Text style={styles.growDataTitle}>{item.name}</Text>
+            <Text style={[styles.growDataTitle, { color: theme.colors.text }]}>{item.name}</Text>
             <CircularProgressBase
               value={(item.percentage || 0) * 100} // Convert to 0-100%
               radius={40}
@@ -93,8 +92,8 @@ const GrowData: React.FC<GrowDataProps> = ({deviceId, sensorData, error}) => {
               inActiveStrokeWidth={5}
             >
               <View style={styles.iconOverlay}>
-                <Text style={styles.circleValue}>{item.value}</Text>
-                <Text style={styles.unitText}>{item.unit}</Text>
+                <Text style={[styles.circleValue, { color: theme.colors.text }]}>{item.value}</Text>
+                <Text style={[styles.unitText, { color: theme.colors.text }]}>{item.unit}</Text>
                 <Ionicons name={item.icon} size={20} color="#16F08B" style={styles.iconInside} />
               </View>
             </CircularProgressBase>

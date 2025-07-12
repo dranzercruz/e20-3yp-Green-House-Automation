@@ -8,8 +8,8 @@ const DeviceRegistration = () => {
     return (
         <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
             <Text style={[styles.heading, {color: theme.colors.text}]}>Device Registration</Text>
-        
-            <ScrollView style={styles.contentContainer}>
+
+            <ScrollView style={[styles.contentContainer, {backgroundColor: theme.colors.cardBackground}]}>
                 <Text style={[styles.subtitle, {color: theme.colors.text}]}>Registering a Device</Text>
                 <Text style={{color: theme.colors.text, fontSize: 16}}>
                     To register a new device, follow these steps:

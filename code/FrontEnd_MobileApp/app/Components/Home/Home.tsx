@@ -72,8 +72,8 @@ const Home = () => {
           {Object.keys(zones).map((zoneName, index) => (
             <TouchableOpacity key={index} onPress={() => directToDetail(zones[zoneName])}>
               <View style={[styles.card, {backgroundColor: theme.colors.cardBackground}]}>
-                <Text style={styles.deviceName}>{zoneName}</Text>
-                <Text style={styles.deviceDetails}>Devices: {zones[zoneName].length}</Text>
+                <Text style={[styles.deviceName, {color: theme.colors.text}]}>{zoneName}</Text>
+                <Text style={[styles.deviceDetails, {color: theme.colors.text}]}>Devices: {zones[zoneName].length}</Text>
               </View>
             </TouchableOpacity>
           ))}

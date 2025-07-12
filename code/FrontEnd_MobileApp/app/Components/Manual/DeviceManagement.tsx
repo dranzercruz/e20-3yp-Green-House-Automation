@@ -8,8 +8,8 @@ const DeviceManagement = () => {
     return (
         <View style={[styles.container, {backgroundColor: theme.colors.background}]}>
             <Text style={[styles.heading, {color: theme.colors.text}]}>Device Management</Text>
-        
-            <View style={styles.contentContainer}>
+
+            <View style={[styles.contentContainer, {backgroundColor: theme.colors.cardBackground}]}>
                 <Text style={[styles.subtitle, {color: theme.colors.text}]}>Managing Devices</Text>
                 <Text style={{color: theme.colors.text, fontSize: 16}}>
                     To manage your devices, follow these steps:
