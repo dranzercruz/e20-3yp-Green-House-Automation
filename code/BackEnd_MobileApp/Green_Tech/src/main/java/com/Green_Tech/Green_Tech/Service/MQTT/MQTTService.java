@@ -3,9 +3,9 @@ package com.Green_Tech.Green_Tech.Service.MQTT;
 import com.Green_Tech.Green_Tech.CustomException.DeviceNotFoundException;
 import com.Green_Tech.Green_Tech.Entity.AwsIotCredentials;
 import com.Green_Tech.Green_Tech.Repository.AwsIotCredentialsRepo;
-import com.Green_Tech.Green_Tech.Service.DeviceService;
 import com.Green_Tech.Green_Tech.Service.PlantService;
 import com.Green_Tech.Green_Tech.Service.sensorData.SensorDataService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import software.amazon.awssdk.crt.mqtt.*;
 import software.amazon.awssdk.iot.AwsIotMqttConnectionBuilder;
 
-import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
