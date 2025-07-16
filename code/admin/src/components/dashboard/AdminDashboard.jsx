@@ -18,7 +18,7 @@ const AdminDashboard = () => {
        }
      };
 
-  const fetchPlants = async () => {
+  const fetchUsers = async () => {
     try {
       const response = await Axios.get("/getAllUsers");
       setUsers(response.data);
