@@ -107,6 +107,25 @@ const Profile: React.FC = () => {
     if (image?.uri) {
       const response = await fetch(image.uri);
       const blob = await response.blob();
+      const base64Image = await blobToBase64(blob);
+      formData.append("imageData", base64Image);
+      formData.append("imageType", image.type);
+      formData.append("imageName", image.name);
+      console.log("Image Data:", base64Image);
+      
+      function blobToBase64(blob: Blob): Promise<string> {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const dataUrl = reader.result as string;
+            const base64 = dataUrl.split(',')[1];
+            resolve(base64);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      }
+      
       formData.append("file", blob, image.name);
     }
     if (user) {
