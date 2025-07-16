@@ -68,6 +68,7 @@ const Zone: React.FC = () => {
   // WebSocket: receives real-time data
   useSensorWebSocket(selectedDevice?.id, (data) => {
     setSensorData(data);
+    setIsEnabled(data.actuatorStatus);
   });
 
   // REST call: fetch latest data from DB on page focus
@@ -79,6 +80,7 @@ const Zone: React.FC = () => {
           
           const res = await Axios.get(`/sensors/currentData/${selectedDevice?.id}`);
           setSensorData(res.data);
+          setIsEnabled(res.data.actuatorStatus);
         } catch (e) {
           console.error('REST fetch failed:', e);
           setError('Failed to fetch data');

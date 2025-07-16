@@ -82,10 +82,9 @@ public class UserController {
 
     @PutMapping("/update")
     public ResponseEntity<User> uploadUserImage(@RequestHeader("Authorization") String auth,
-                                                @RequestParam(value = "file", required = false) MultipartFile file,
                                                 @ModelAttribute UserDTO userDto)
                                                 throws UserNotFoundException, IOException {
-        return ResponseEntity.ok(userService.updateUser(auth, userDto, file));
+        return ResponseEntity.ok(userService.updateUser(auth, userDto));
     }
 
     @PutMapping("/changePassword")

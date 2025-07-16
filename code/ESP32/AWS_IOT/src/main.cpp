@@ -16,6 +16,10 @@
 #define FAN_PIN 22
 #define WATER_PIN 5
 #define BUTTON_PIN 13
+#define WIFI_LED 15
+#define N_PIN 0
+#define P_PIN 0
+#define K_PIN 0
 #define MOISTURE_SENSOR_PIN_1 32
 #define MOISTURE_SENSOR_PIN_2 33
 #define MOISTURE_SENSOR_PIN_3 34
@@ -65,6 +69,7 @@ void setup() {
 
   // Set Pin Modes
   pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(WIFI_LED, OUTPUT);
   pinMode(FAN_PIN, OUTPUT);
   pinMode(WATER_PIN, OUTPUT);
   pinMode(MOISTURE_SENSOR_PIN_1, INPUT);
@@ -114,6 +119,7 @@ void loop() {
 
   // Wi-Fi Recovery
   if (WiFi.status() != WL_CONNECTED && registered) {
+    digitalWrite(WIFI_LED, LOW);
     Serial.println("WiFi lost. Attempting reconnect...");
     connectToWifi();
   }
@@ -156,26 +162,26 @@ void loop() {
 
   if(nutrientThreshold[0] > readingNPK[0]) {
     Serial.println("Nitrogen level is below threshold. Activating nutrient N...");
-    actuatorState[1] = true;         // Update actuator state
+    actuatorState[1] = true;    
   }else{
     Serial.println("Nitrogen level is within threshold. Deactivating nutrient N...");
-    actuatorState[1] = false;        // Update actuator state
+    actuatorState[1] = false;   
   }
 
   if(nutrientThreshold[1] > readingNPK[1]) {
-    Serial.println("Phosphorus level is above threshold. Deactivating nutrient P...");
-    actuatorState[2] = false;        // Update actuator state
+    Serial.println("Phosphorus level is above threshold. Activating nutrient P...");
+    actuatorState[2] = true;   
   }else{
-    Serial.println("Phosphorus level is below threshold. Activating nutrient P...");
-    actuatorState[2] = true;         // Update actuator state
+    Serial.println("Phosphorus level is below threshold. Deactivating nutrient P...");
+    actuatorState[2] = false;    
   }
 
   if(nutrientThreshold[2] > readingNPK[2]) {
-    Serial.println("Potassium level is above threshold. Deactivating nutrient K...");
-    actuatorState[3] = false;        // Update actuator state
+    Serial.println("Potassium level is above threshold. Activating nutrient K...");
+    actuatorState[3] = true;   
   }else{
-    Serial.println("Potassium level is below threshold. Activating nutrient K...");
-    actuatorState[3] = true;         // Update actuator state
+    Serial.println("Potassium level is below threshold. Deactivating nutrient K...");
+    actuatorState[3] = false;    
   }
 
   // Read DHT with retries
@@ -191,13 +197,13 @@ void loop() {
   }
 
   if(temperatureThreshold[0] > t) {
-    Serial.println("Temperature is below threshold. Activating fan...");
-    digitalWrite(FAN_PIN, LOW);  // Activate fan
-    actuatorState[0] = true;      // Update actuator state
+    Serial.println("Temperature is below threshold. Deactivating fan...");
+    digitalWrite(FAN_PIN, HIGH);  // Deactivate fan
+    actuatorState[0] = false;
   } else if(temperatureThreshold[1] < t) {
-    Serial.println("Temperature is above threshold. Deactivating fan...");
-    digitalWrite(FAN_PIN, HIGH); // Deactivate fan
-    actuatorState[0] = false;     // Update actuator state
+    Serial.println("Temperature is above threshold. Activating fan...");
+    digitalWrite(FAN_PIN, LOW); // Activate fan
+    actuatorState[0] = true;
   }
   
   // Read Moisture Sensors
@@ -208,13 +214,13 @@ void loop() {
   int avgMoisture = (moisture_1 + moisture_2 + moisture_3 + moisture_4) / 4;
 
   if(moistureThreshold[0] > avgMoisture) {
-    Serial.println("Moisture level is below threshold. Activating water pump...");
-    digitalWrite(WATER_PIN, LOW);  // Activate water pump
-    actuatorState[4] = true;        // Update actuator state
+    Serial.println("Moisture level is below threshold. Deactivating water pump...");
+    digitalWrite(WATER_PIN, HIGH);  // Deactivate water pump
+    actuatorState[4] = false; 
   } else if(moistureThreshold[1] < avgMoisture) {
-    Serial.println("Moisture level is above threshold. Deactivating water pump...");
-    digitalWrite(WATER_PIN, HIGH); // Deactivate water pump
-    actuatorState[4] = false;       // Update actuator state
+    Serial.println("Moisture level is above threshold. Activating water pump...");
+    digitalWrite(WATER_PIN, LOW); // Activate water pump
+    actuatorState[4] = true;
   }
   // Process commands from cloud
   if (commandIndex >= 0) {
@@ -253,6 +259,7 @@ void connectToWifi() {
   Serial.println();
 
   if (WiFi.status() == WL_CONNECTED) {
+    digitalWrite(WIFI_LED, HIGH);
     Serial.println("Connected. IP: " + WiFi.localIP().toString());
     ensureAWSConnection();
   } else {
@@ -279,9 +286,11 @@ void ensureAWSConnection() {
 
 // --- Command Execution ---
 void processCommand(int index, bool status) {
-  const int commandPins[] = { FAN_PIN, WATER_PIN };
-  if (index >= 0 && index < 2) {
-    digitalWrite(commandPins[index], status ? LOW : HIGH);
+  const int commandPins[] = { FAN_PIN, N_PIN, P_PIN, K_PIN, WATER_PIN };
+  if (index >= 0 && index < sizeof(commandPins) / sizeof(commandPins[0])) {
+    if (index == 0 || index == 4 ) {
+      digitalWrite(commandPins[index], status ? LOW : HIGH);
+    }
     actuatorState[index] = status;
     Serial.printf("Command %d executed. State: %s\n", index, status ? "ON" : "OFF");
   }

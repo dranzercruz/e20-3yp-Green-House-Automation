@@ -111,13 +111,14 @@ public class UserService {
         return userData;
     }
 
-    public User updateUser(String auth, UserDTO userDTO, MultipartFile file) throws UserNotFoundException, IOException {
+    public User updateUser(String auth, UserDTO userDTO) throws UserNotFoundException, IOException {
 
         User user = extractUserService.extractUserFromJwt(auth);
 
         user.setName(userDTO.getName());
         user.setPhoneNumber(userDTO.getPhoneNumber());
-        if (file != null && !file.isEmpty()) {
+        MultipartFile file = userDTO.getFile();
+        if ( file != null) {
             user.setImageName(file.getOriginalFilename());
             user.setImageData(file.getBytes());
             user.setImageType(file.getContentType());

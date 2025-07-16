@@ -54,8 +54,8 @@ const GrowComponents: React.FC<GrowComponentsProps> = ({ isEnabled, toggleStatus
               ]}
               onPress={() => sendControlSignal(index, !isEnabled[index])}
             >
-              <Ionicons name="checkmark-circle" size={18} color={isEnabled[index] ? '#16F08B' : '#555'} />
-              <Text style={[styles.statusText, { color: isEnabled[index] ? '#16F08B' : 'gray' }]}>
+              <Ionicons name="checkmark-circle" size={18} color={isEnabled[index] ? '#01694D' : '#555'} />
+              <Text style={[styles.statusText, { color: isEnabled[index] ? '#01694D' : 'gray' }]}>
                 {isEnabled[index] ? 'On' : 'Off'}
               </Text>
             </TouchableOpacity>
