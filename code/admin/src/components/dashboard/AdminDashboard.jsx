@@ -1,10 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './adminDashboard.css';
+import { Axios } from '../../AxiosBuilder';
 
 const AdminDashboard = () => {
-  // Example static data, replace with dynamic data if needed
-  const userCount = 3;
-  const deviceCount = 4;
+  const [users, setUsers] = useState([]); 
+  const [devices, setDevices] = useState([]);
+   
+  const fetchDevices = async () => {
+       try {
+         const response = await Axios.get("/getAllDevices");
+         setDevices(response.data);
+       } catch (error) {
+         console.log(error);
+         if (error.response?.data?.message) {
+           alert(error.response.data.message);
+         }
+       }
+     };
+
+  const fetchPlants = async () => {
+    try {
+      const response = await Axios.get("/getAllUsers");
+      setUsers(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+      if(error.response?.data?.message){
+        alert(error.response.data.message);
+      }
+    }
+  };
+         
+  useEffect(() => {
+    fetchDevices();
+    fetchPlants();
+  }, [])
 
   return (
     <div className="admin-dashboard-container">
@@ -13,11 +43,11 @@ const AdminDashboard = () => {
         <div className="dashboard-cards-container">
           <div className="dashboard-card">
             <h3 className="card-title">Users Count</h3>
-            <p className="card-count">{userCount}</p>
+            <p className="card-count">{users.length}</p>
           </div>
           <div className="dashboard-card">
             <h3 className="card-title">Devices Count</h3>
-            <p className="card-count">{deviceCount}</p>
+            <p className="card-count">{devices.length}</p>
           </div>
         </div>
       </div>
