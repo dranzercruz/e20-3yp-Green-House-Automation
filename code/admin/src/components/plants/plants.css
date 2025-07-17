@@ -194,5 +194,31 @@
     font-size: 20px;
     color: #2e7d32;
 }
+.outer{
+  height: 50px;
+  width: 50px;
+  border: 6px solid #ccc;
+  border-top: 6px solid #1b4332; /* colored arc */
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+}
+.inner{
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border-radius: 50%;
+}
 
-
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

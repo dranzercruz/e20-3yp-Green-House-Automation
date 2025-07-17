@@ -11,6 +11,7 @@ const Users = ({ activeTab }) => {
   const [isUpdateUserModalOpen, setIsUpdateUserModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isDeletePlantModalOpen, setIsDeletePlantModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
 
   const handleAddUserClick = () => {
@@ -22,9 +23,11 @@ const Users = ({ activeTab }) => {
   };
 
   const handleSaveUser = async (userDetails) => {
+    setLoading(true);
     try {
       const response = await Axios.post(`/addUser`, userDetails)
       setUsers(response.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -34,27 +37,31 @@ const Users = ({ activeTab }) => {
     setSelectedUser(user);
     setIsUpdateUserModalOpen(true);
   };
-
+  
   const handleCloseUpdateUserModal = () => {
     setIsUpdateUserModalOpen(false);
     setSelectedUser(null);
   };
-
+  
   const handleUpdateUser = async () => {
+    handleCloseUpdateUserModal();
+    setLoading(true);
     try {
       const response = await Axios.put(`/updateUser`, selectedUser)
       setUsers(response.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
-    handleCloseUpdateUserModal();
   };
-
-
+  
+  
   const handleDeleteClick = async (id) => {
+    setLoading(true);
     try {
       const response = await Axios.delete(`/deleteUser/${id}`);
       setUsers(response.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -65,6 +72,7 @@ const Users = ({ activeTab }) => {
       try {
         const response = await Axios.get("/getAllUsers");
         setUsers(response.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
         if(error.response?.data?.message){
@@ -97,7 +105,16 @@ const Users = ({ activeTab }) => {
             </tr>
           </thead>
           <tbody>
-            {users?.map(user => (
+            {loading ? 
+              <tr>
+                <td colSpan="8" className="loading">
+                  <div className="outer">
+                    <div className="inner"></div>
+                  </div>
+                </td>
+              </tr>
+            :
+            users?.map(user => (
               <tr key={user.id}>
                 <td>{user?.id}</td>
                 <td>{user?.name}</td>

@@ -11,7 +11,7 @@ const Plants = ({ activeTab }) => {
   const [isAddPlantModalOpen, setIsAddPlantModalOpen] = useState(false);
   const [isUpdatePlantModalOpen, setIsUpdatePlantModalOpen] = useState(false);
   const [isDeletePlantModalOpen, setIsDeletePlantModalOpen] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   const [selectedPlant, setSelectedPlant] = useState(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [plants, setPlants] = useState([]);  
@@ -52,9 +52,11 @@ const Plants = ({ activeTab }) => {
   };
 
   const handleConfirmDelete = async (id) => {
+    setLoading(true);
     try {
       const response = await Axios.delete(`/deletePlant/${id}`);
       setPlants(response.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
       alert('Failed to delete plant');
@@ -66,7 +68,7 @@ const Plants = ({ activeTab }) => {
     try {
       const response = await Axios.get("/getAllPlants");
       setPlants(response.data);
-      console.log(response.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
       if(error.response?.data?.message){
@@ -89,7 +91,12 @@ const Plants = ({ activeTab }) => {
         </button>
         {/* Show hardcoded plant names */}
         <ul className="plant-list">
-          {plants.map((plant) => (
+          {loading ? 
+            <div className='outer'>
+              <div className='inner'></div>
+            </div>
+          :
+          (plants.map((plant) => (
             <li key={plant.id} className="plant-item">
               <div className="plant-info" onClick={() => handlePlantClick(plant)}>
               <img className="plant-img-placeholder" src={`data:${plant.imageType};base64,${plant.imageData}`} alt='plantImage' />
@@ -100,7 +107,7 @@ const Plants = ({ activeTab }) => {
                 <button className="delete-btn" onClick={() => handleDeleteClick(plant)}>Delete</button>
               </div>
            </li>
-          ))}
+          )))}
         </ul>
         
       </div>

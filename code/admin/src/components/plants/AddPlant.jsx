@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Axios } from '../../AxiosBuilder';
+import Spinner from '../Common/Spinner';
 
 const AddPlant = ({ isOpen, onClose, setPlants }) => {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ const AddPlant = ({ isOpen, onClose, setPlants }) => {
 
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
@@ -49,6 +51,7 @@ const AddPlant = ({ isOpen, onClose, setPlants }) => {
       form.append('image', image);
     }
 
+    setLoading(true);
     try {
       const res = await Axios.post('/addPlant', form, {
         headers: {
@@ -58,7 +61,7 @@ const AddPlant = ({ isOpen, onClose, setPlants }) => {
       });
       setPlants(res.data)
       console.log('Upload successful:', res.data);
-      alert('Plant added successfully!');
+      setLoading(false);
     } catch (err) {
       console.error('Upload failed:', err.response?.data || err.message);
       alert('Failed to add plant.');
@@ -69,6 +72,7 @@ const AddPlant = ({ isOpen, onClose, setPlants }) => {
 
   return (
     <>
+      {loading && <Spinner />}
       <div style={styles.backdrop} onClick={onClose} />
 
       <div style={styles.modal} onClick={e => e.stopPropagation()}>
