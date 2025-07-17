@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Axios } from '../../AxiosBuilder';
+import Spinner from '../Common/Spinner';
 
 const UpdatePlant = ({ isOpen, onClose, plant, setPlant, setPlants }) => {
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   if (!isOpen || !plant) return null;
 
   const handleChange = (e) => {
@@ -41,6 +43,8 @@ const UpdatePlant = ({ isOpen, onClose, plant, setPlant, setPlants }) => {
         }
         form.append('image', image);
       }
+
+      setLoading(true);
       try {
         const response = await Axios.put(`/updatePlant/${plant.id}`, form, {
           headers: {
@@ -49,7 +53,7 @@ const UpdatePlant = ({ isOpen, onClose, plant, setPlant, setPlants }) => {
           }
         });
         setPlants(response.data);
-        alert("Plant updated successfully");
+        setLoading(false);
       } catch (error) {
         console.error(error);
         alert('Failed to update plant');
@@ -59,6 +63,7 @@ const UpdatePlant = ({ isOpen, onClose, plant, setPlant, setPlants }) => {
 
   return (
     <>
+      {loading && <Spinner/>}
       <div style={styles.backdrop} onClick={onClose} />
 
       <div style={styles.modal} onClick={(e) => e.stopPropagation()}>

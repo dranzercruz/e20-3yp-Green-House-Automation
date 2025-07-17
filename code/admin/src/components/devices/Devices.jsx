@@ -11,12 +11,14 @@ const Device = ({ activeTab }) => {
   const [deviceToEdit, setDeviceToEdit] = useState({}); // Store the device to be edited
   const [isDeletePlantModalOpen, setIsDeletePlantModalOpen] = useState(false);
   const [selectedDevice, setSelectedDevice] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDevices = async () => {
       try {
         const response = await Axios.get("/getAllDevices");
         setDevices(response.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
         if (error.response?.data?.message) {
@@ -29,9 +31,11 @@ const Device = ({ activeTab }) => {
 
   // Function to delete the device
   const handleDelete = async (id) => {
+    setLoading(true);
     try {
       const response = await Axios.delete(`/deleteDevice/${id}`);
       setDevices(response.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -45,10 +49,12 @@ const Device = ({ activeTab }) => {
 
   // Handle saving the edited device data
   const handleSave = async () => {
+    setIsAddDeviceModalOpen(false);  // Close the modal after saving
+    setLoading(true);
     try {
       const response = await Axios.put(`/updateDevice/${deviceToEdit.id}`, deviceToEdit);
       setDevices(response.data);  // Update the devices list after successful update
-      setIsAddDeviceModalOpen(false);  // Close the modal after saving
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -74,24 +80,33 @@ const Device = ({ activeTab }) => {
                 </tr>
               </thead>
               <tbody>
-                {devices.map((device) => (
-                  <tr key={device.id}>
-                    <td>{device?.id}</td>
-                    <td>{device?.name}</td>
-                    <td>{device?.mac}</td>
-                    <td>{device?.location}</td>
-                    <td>{device?.zoneName}</td>
-                    <td>{device?.addedAt}</td>
-                    <td>{device?.user?.name || 'Unassigned'}</td>
-                    <td>
-                      <button className="edit-button" onClick={() => handleEdit(device)}>Edit</button>
-                      <button className="delete-button" onClick={() => {
-                        setSelectedDevice(device);
-                        setIsDeletePlantModalOpen(true);
-                      }}>Delete</button>
+                {loading ? (
+                  <tr>
+                    <td colSpan="8" className="loading">
+                      <div className="outer">
+                        <div className="inner"></div>
+                      </div>
                     </td>
                   </tr>
-                ))}
+                ) : (
+                  devices.map((device) => (
+                    <tr key={device.id}>
+                      <td>{device?.id}</td>
+                      <td>{device?.name}</td>
+                      <td>{device?.mac}</td>
+                      <td>{device?.location}</td>
+                      <td>{device?.zoneName}</td>
+                      <td>{device?.addedAt}</td>
+                      <td>{device?.user?.name || 'Unassigned'}</td>
+                      <td>
+                        <button className="edit-button" onClick={() => handleEdit(device)}>Edit</button>
+                        <button className="delete-button" onClick={() => {
+                          setSelectedDevice(device);
+                          setIsDeletePlantModalOpen(true);
+                        }}>Delete</button>
+                      </td>
+                  </tr>
+                )))}
               </tbody>
             </table>
           </div>

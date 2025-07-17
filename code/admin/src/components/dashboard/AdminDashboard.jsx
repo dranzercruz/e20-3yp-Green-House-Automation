@@ -4,6 +4,7 @@ import { Axios } from '../../AxiosBuilder';
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]); 
+  const [plants, setPlants] = useState([]); 
   const [devices, setDevices] = useState([]);
    
   const fetchDevices = async () => {
@@ -30,10 +31,23 @@ const AdminDashboard = () => {
       }
     }
   };
+
+  const fetchPlants = async () => {
+    try {
+      const response = await Axios.get("/getAllPlants");
+      setPlants(response.data);
+    } catch (error) {
+      console.log(error);
+      if(error.response?.data?.message){
+        alert(error.response.data.message);
+      }
+    }
+  };
          
   useEffect(() => {
     fetchDevices();
     fetchPlants();
+    fetchUsers();
   }, [])
 
   return (
@@ -48,6 +62,10 @@ const AdminDashboard = () => {
           <div className="dashboard-card">
             <h3 className="card-title">Devices Count</h3>
             <p className="card-count">{devices.length}</p>
+          </div>
+          <div className="dashboard-card">
+            <h3 className="card-title">Plants Count</h3>
+            <p className="card-count">{plants.length}</p>
           </div>
         </div>
       </div>
